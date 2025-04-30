@@ -1,7 +1,8 @@
-package main
+package getter
 
 import (
 	"album-art-fetcher/config"
+	"album-art-fetcher/finder"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -22,7 +23,7 @@ var imageHashRegex = regexp.MustCompile(`/([a-f0-9]{32})\.(jpg|png)$`)
 
 func FetchAlbumArtURL(artist, album string) (string, error) {
 
-	url := BuildLastfmApiUrl(artist, album)
+	url := finder.BuildLastfmApiUrl(artist, album)
 
 	resp, err := http.Get(url)
 	if err != nil {

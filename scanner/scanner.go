@@ -1,4 +1,4 @@
-package main
+package scanner
 
 import (
 	"os"
@@ -12,7 +12,7 @@ type Album struct {
 	MissingArt bool
 }
 
-func scanMusicDir(root string) ([]Album, error) {
+func ScanMusicDir(root string) ([]Album, error) {
 	var albums []Album
 
 	err := filepath.WalkDir(root, func(path string, d os.DirEntry, err error) error {
