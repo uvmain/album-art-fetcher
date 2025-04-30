@@ -11,6 +11,7 @@ import (
 
 var MusicDirectory string
 var AlbumArtPixels uint
+var AlbumArtPixelsString string
 var LastfmAPIKey string
 
 func LoadEnv() {
@@ -37,5 +38,7 @@ func LoadEnv() {
 	} else {
 		AlbumArtPixels = 600
 	}
+
+	AlbumArtPixelsString = strconv.Itoa(int(AlbumArtPixels))
 
 }

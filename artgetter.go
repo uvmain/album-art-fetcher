@@ -7,7 +7,6 @@ import (
 	"io"
 	"net/http"
 	"regexp"
-	"strconv"
 )
 
 type AlbumInfoResponse struct {
@@ -23,7 +22,6 @@ var imageHashRegex = regexp.MustCompile(`/([a-f0-9]{32})\.(jpg|png)$`)
 
 func FetchAlbumArtURL(artist, album string) (string, error) {
 
-	pixels := strconv.Itoa(int(config.AlbumArtPixels))
 	url := BuildLastfmApiUrl(artist, album)
 
 	resp, err := http.Get(url)
@@ -54,7 +52,7 @@ func FetchAlbumArtURL(artist, album string) (string, error) {
 		if match := imageHashRegex.FindStringSubmatch(img.URL); len(match) == 3 {
 			hash := match[1]
 			ext := match[2]
-			customURL := fmt.Sprintf("https://lastfm.freetls.fastly.net/i/u/%sx%s/%s.%s", pixels, pixels, hash, ext)
+			customURL := fmt.Sprintf("https://lastfm.freetls.fastly.net/i/u/%sx%s/%s.%s", config.AlbumArtPixelsString, config.AlbumArtPixelsString, hash, ext)
 			return customURL, nil
 		}
 	}
