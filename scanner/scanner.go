@@ -4,12 +4,23 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"unicode"
 )
 
 type Album struct {
 	Artist     string
 	AlbumDir   string // Full path to the album folder
 	MissingArt bool
+}
+
+func normalizePath(path string) string {
+	// Replace problematic characters (e.g., '+') with underscores
+	return strings.Map(func(r rune) rune {
+		if r == '+' || !unicode.IsPrint(r) {
+			return '_'
+		}
+		return r
+	}, path)
 }
 
 func ScanMusicDir(root string) ([]Album, error) {
@@ -19,6 +30,9 @@ func ScanMusicDir(root string) ([]Album, error) {
 		if err != nil {
 			return err
 		}
+
+		// Normalize the path to handle problematic characters
+		path = normalizePath(path)
 
 		// Check if this is a folder and directly under root/Artist/Album
 		if d.IsDir() {
